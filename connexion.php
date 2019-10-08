@@ -12,8 +12,7 @@
         # On vérifie si le nom d'utilisateur est dans la base de données
         $mysqli = db_connect(); # On se connecte à la base de données
         $sqlUSER = execute("SELECT COUNT(user_username) FROM user WHERE user_username='.$post_username.'");
-        echo $sqlUSER['user_username'];
-        exit;
+
         # S'il y a un résultat correspondant à la requête (Le nom d'utilisateur existe)  alors on récupère le mot de passe associé
         if ($sqlUSER == 1) {
             # On fait une requête pour récuperer le mot de passe en base de données
@@ -26,12 +25,19 @@
     
             # Si c'est le bon mot de passe
             if ($truepassword) {
+                // Initialisation des variables sessions
                 $_SESSION['logged'] = true;
                 $_SESSION['id_user'] = $user_id;
+                // On regarde s'il est admin
                 $sql = execute("SELECT id_user_type FROM user WHERE id_user='.$user_id.'");
                 if ($sql['id_user_type'] == 1) { $_SESSION['is_admin'] = 'oui'; }
+                // On l'ajoute dans l'historique de connexion
+                $date = date("Ymd H:i:s");
+                $sql = "INSERT into historyconnexion(id_user,historyconnexion_date) values('".$id_user."','".$date."')";
+                $sql = execute($sql);
+                // On met un cookie
                 setcookie('logged','true',time()+36000);
-                redirect('index.php');
+                redirect('espace-connecte.php');
             }
             # Sinon
             else{
@@ -43,7 +49,7 @@
     else {
         session_destroy();
         setcookie('logged','',time()-36000);
-        header("Location: ?error&error_info=badid");
+        redirect('connexion.php?badid');
         exit;
     }
 
