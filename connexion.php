@@ -1,7 +1,9 @@
 <?php
     session_start();
-    require '/include/function.php';
+    require 'include/function.php';
 
+    echo $_SESSION['myconnect'];
+    
     // Contrôle pour voir s'il est connecter
     if (!empty($_POST)) {
         # L'identifiant que le visiteur met            
@@ -37,20 +39,22 @@
                 $sql = execute($sql);
                 // On met un cookie
                 setcookie('logged','true',time()+36000);
-                redirect('espace-connecte.php');
+                echo 'Connecté';
+                // redirect('espace-connecte.php'); Mettre l'url de redirection
             }
             # Sinon
             else{
-                redirect('connexion.php?badid');
+                // redirect('connexion.php?badid');
+                echo 'Mauvais mdp';
             }
         }
     }
-    
-    else {
+
+    if ($_GET['disconnected']) {
         session_destroy();
         setcookie('logged','',time()-36000);
         redirect('connexion.php?badid');
-        exit;
+        // exit;
     }
 
 ?>
@@ -93,9 +97,9 @@
 
     <form class="container mt-5" method="post" action="connexion.php">
         <div class="form-group col-md-10">
-            <label for="staticPseudo" class="col-sm-2 col-form-label">Pseudo</label>
+            <label for="staticMail" class="col-sm-2 col-form-label">Mail</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="staticPseudo" placeholder="myusername" name="user_username" required>
+                <input type="email" class="form-control" id="staticMail" placeholder="myemail" name="user_mail" required>
             </div>
         </div>
         <div class="form-group col-md-10">
