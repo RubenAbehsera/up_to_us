@@ -13,10 +13,9 @@ function db_connect() {
     
 	if ($lien) {
         mysqli_query($lien, "set names utf8");
-        $_SESSION['myconnect'] = $lien;
-        return(true);
+        return $lien;
     } else {
-        return(false);
+        return 'Erreur de connexion à la BDD';
     }
 }
 
@@ -36,13 +35,14 @@ function is_admin(){
 // Requête SQL
 function request($sql) {
     $sql = antiSQL($sql);
-	
-	if (!$resultat = mysqli_query($_SESSION['myconnect'],$sql)){
+	$lien = db_connect();
+
+	if (!$resultat = mysqli_query($lien,$sql)){
 		if (is_admin()){
 			echo("<blockquote>");
-			echo mysqli_errno($_SESSION['myconnect']);
+			echo mysqli_errno($lien);
 			echo(" : ");
-			echo mysqli_error($_SESSION['myconnect']);
+			echo mysqli_error($lien);
 			echo("<br />");
 			echo($sql);
 			echo("</blockquote>");
@@ -56,7 +56,6 @@ function request($sql) {
 // Une seule requête SQL
 function execute($sql) {
     $request = request($sql);
-
 	$result = mysqli_fetch_assoc($request);
 
 	for ($i=0;$i < mysqli_num_fields($request);$i++)
@@ -68,5 +67,31 @@ function execute($sql) {
 	return($result);
 }
 
+// Requête INSERT
+function insert($sql) {
+	$lien = db_connect();
+	$result = mysqli_query($lien,$sql);
 
+	return $result;
+}
+
+function upload_image($post_name,$name_repertoire) {
+	$target_dir = "images/".$name_repertoire;
+	$target_file = $target_dir . basename($_FILES[$post_name]["name"]);
+	$uploadOk = 1;
+	$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+	// Check if image file is a actual image or fake image
+	if(isset($_POST["submit"])) {
+		$check = getimagesize($_FILES[$post_name]["tmp_name"]);
+		if($check !== false) {
+			echo "File is an image - " . $check["mime"] . ".";
+			$uploadOk = true;
+		} else {
+			echo "File is not an image.";
+			$uploadOk = false;
+		}
+	}
+
+	return $uploadOk;
+}
 ?>
