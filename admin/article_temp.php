@@ -6,6 +6,7 @@
     $request = request($sql);
 
     $index = 1;
+    echo ("<form>");
     while ($result = mysqli_fetch_assoc($request)) {
         // Condition pour n'afficher que les articles en état visible
         if ($result['article_visible'] == 1) {
@@ -17,6 +18,7 @@
             echo('Article date création avec reformat : '.changeDate($result['article_date'],'-').'<br>');
             echo('Article date création sans reformat : '.$result['article_date'].'<br>');
             echo('Article état de vision : '.$result['article_visible'].'<br>');
+            echo('<a class="btn btn-primary" href="./edit-article.php?id_article='.$result['id_article'].'">Editer l\'article</a>');
             echo('<br>');
         }
         $index++;

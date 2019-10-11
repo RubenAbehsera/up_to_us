@@ -40,6 +40,18 @@ function changeDate($date,$separator) {
     return $date;
 }
 
+function changeDateInput($date,$separator) {
+    if ($separator == "") {
+        $separator = "/";
+    }
+    $year = substr($date,0,4);
+    $month = substr($date,4,2);
+    $day = substr($date,6,2);
+
+    $date = $year.$separator.$month.$separator.$day;
+    return $date;
+}
+
 function changeTime($time,$separator) {
     if ($separator == "") {
         $separator = "/";
