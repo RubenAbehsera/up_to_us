@@ -1,22 +1,21 @@
 <?php
     session_start();
-    require 'include/function.php';
+    include '../include/function.php';
 
     // As-t'on envoyé des infos ?
     if (isset($_POST) and !empty($_POST)) {
         // Initialisation des variables
         $article_titre = $_POST["article_titre"];
-        upload_image($post_name,$name_repertoire);
-        $article_photo = $content_dir.$name_file;
+        $article_photo = "1";
         $article_contenu = $_POST["article_contenu"];
         $id_article_categorie = $_POST["id_article_categorie"];
-        $article_createur = $_SESSION['id_user'];
+        $article_createur = 1;
         $article_date = date("YmdHis");
-        $article_visible = $_POST["article_visible"];
+        $article_visible = $_POST['article_visible'];
 
         // Préparation de la requête
-        $sql = "INSERT INTO article(article_titre,article_photo,article_contenu,id_article_categorie,article_createur,article_date,article_visible)
-        VAlUES ('.$article_titre.','.$article_photo.','.$article_contenu.','.$id_article_categorie.','.$article_createur.','.$article_date.','.$article_visible.')";
+        $sql = "INSERT into article(article_titre,article_photo,article_contenu,id_article_categorie,article_createur,article_date,article_visible)
+        values ('$article_titre','$article_photo','$article_contenu','$id_article_categorie','$article_createur','$article_date','$article_visible')";
 
         $callback = insert($sql);
         if ($callback) {
@@ -55,22 +54,35 @@
         <div class="form-group">
             <label for="id_article_categorie">Catégorie</label>
             <select class="form-control" id="id_article_categorie" name="id_article_categorie" required>
-                <option value="1">1</option>
-                <option value="2">2</option>
+                <?php
+                $sql = "SELECT * from article_categorie";
+                $request = request($sql);
+                while ($result = mysqli_fetch_assoc($request)) {
+                    echo('<option value="'.$result["id_article_categorie"].'">'.$result["article_categorie_nom"].'</option>');
+                }
+            ?>
             </select>
         </div>
         <div class="form-group">
             <label for="article_photo">Example file input</label>
-            <input type="file" class="form-control-file" id="article_photo" name="fichier" required>
+            <input type="file" class="form-control-file" id="article_photo" name="fichier" accept="image/*" required>
         </div>
         <div class="form-group">
             <label for="article_contenu">Contenu article</label>
             <textarea class="form-control" id="article_contenu" rows="3" name="article_contenu" required></textarea>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="article_visible" name="article_visible" value="1"
-                required>
-            <label class="form-check-label" for="article_visible">On montre l'article ?</label>
+            <input class="form-check-input" type="radio" name="article_visible" id="article_visible1" value="1"
+                checked>
+            <label class="form-check-label" for="article_visible1">
+                On affiche l'article
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="article_visible" id="article_visible" value="0">
+            <label class="form-check-label" for="article_visible">
+                On n'affiche pas l'article
+            </label>
         </div>
         <button type="submit" class="btn btn-primary col-md-10">Publier l'article</button>
     </form>

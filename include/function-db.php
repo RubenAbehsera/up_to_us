@@ -24,14 +24,6 @@ function antiSQL($sql){
     return(str_replace("'","\'",strip_tags($sql)));
 }
 
-// is admin ?
-function is_admin(){
-    if ((isset($_SESSION['is_admin'])) and ($_SESSION['is_admin'] != "")) {
-        return true;
-    } else {
-        return false;
-    }
-}
 // Requête SQL
 function request($sql) {
     $sql = antiSQL($sql);
@@ -55,14 +47,9 @@ function request($sql) {
 
 // Une seule requête SQL
 function execute($sql) {
-    $request = request($sql);
-	$result = mysqli_fetch_assoc($request);
-
-	for ($i=0;$i < mysqli_num_fields($request);$i++)
-	{
-		$temp = mysqli_fetch_field_direct($request,$i);
-		$result[$temp->name] = $result[$temp->name];
-	}
+	$lien = db_connect();
+	$query = mysqli_query($lien, $sql);
+	$result = mysqli_fetch_assoc($query);
 
 	return($result);
 }
@@ -73,25 +60,5 @@ function insert($sql) {
 	$result = mysqli_query($lien,$sql);
 
 	return $result;
-}
-
-function upload_image($post_name,$name_repertoire) {
-	$target_dir = "images/".$name_repertoire;
-	$target_file = $target_dir . basename($_FILES[$post_name]["name"]);
-	$uploadOk = 1;
-	$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-	// Check if image file is a actual image or fake image
-	if(isset($_POST["submit"])) {
-		$check = getimagesize($_FILES[$post_name]["tmp_name"]);
-		if($check !== false) {
-			echo "File is an image - " . $check["mime"] . ".";
-			$uploadOk = true;
-		} else {
-			echo "File is not an image.";
-			$uploadOk = false;
-		}
-	}
-
-	return $uploadOk;
 }
 ?>

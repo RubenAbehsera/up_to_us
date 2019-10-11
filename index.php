@@ -1,60 +1,5 @@
 <?php
     session_start();
-    require 'include/function.php';
-    
-    // Contrôle pour voir s'il est connecter
-    if (!empty($_POST)) {
-        # L'identifiant que le visiteur met            
-        $post_username = htmlentities($_POST['user_username'], ENT_QUOTES, "ISO-8859-1");           # On vérifie qu'il n'y a pas d'injection SQL
-        $post_username = strtolower($post_username);
-        # Le mot de passe que le visiteur met
-        $post_password =  htmlentities($_POST['user_password'], ENT_QUOTES, "ISO-8859-1");
-        # On vérifie si le nom d'utilisateur est dans la base de données
-        $mysqli = db_connect(); # On se connecte à la base de données
-        $sqlUSER = execute("SELECT COUNT(user_username) FROM user WHERE user_username='.$post_username.'");
-
-        # S'il y a un résultat correspondant à la requête (Le nom d'utilisateur existe)  alors on récupère le mot de passe associé
-        if ($sqlUSER == 1) {
-            # On fait une requête pour récuperer le mot de passe en base de données
-            $sqlPASSWORD = execute("SELECT * FROM user WHERE user_username='.$post_username.'");
-            # On associe la valeur du mot de passe hasher à une variable
-            $user_password = $sqlPASSWORD["user_password"];
-            $user_id = $sqlPASSWORD["id_user"];
-            # On compare le mot de passe en base de données avec le mot de passe renseigné dans le formulaire
-            $truepassword = password_verify($post_password,$user_password);
-    
-            # Si c'est le bon mot de passe
-            if ($truepassword) {
-                // Initialisation des variables sessions
-                $_SESSION['logged'] = true;
-                $_SESSION['id_user'] = $user_id;
-                // On regarde s'il est admin
-                $sql = execute("SELECT id_user_type FROM user WHERE id_user='.$user_id.'");
-                if ($sql['id_user_type'] == 1) { $_SESSION['is_admin'] = 'oui'; }
-                // On l'ajoute dans l'historique de connexion
-                $date = date("Ymd H:i:s");
-                $sql = "INSERT into historyconnexion(id_user,historyconnexion_date) values('".$id_user."','".$date."')";
-                $sql = execute($sql);
-                // On met un cookie
-                setcookie('logged','true',time()+36000);
-                echo 'Connecté';
-                // redirect('espace-connecte.php'); Mettre l'url de redirection
-            }
-            # Sinon
-            else{
-                // redirect('connexion.php?badid');
-                echo 'Mauvais mdp';
-            }
-        }
-    }
-
-    if (isset($_GET['disconnected'])) {
-        session_destroy();
-        setcookie('logged','',time()-36000);
-        redirect('connexion.php?badid');
-        // exit;
-    }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -93,21 +38,8 @@
         </div>
     </nav>
 
-    <form class="container mt-5" method="post" action="connexion.php">
-        <div class="form-group col-md-10">
-            <label for="staticMail" class="col-sm-2 col-form-label">Mail</label>
-            <div class="col-sm-10">
-                <input type="email" class="form-control" id="staticMail" placeholder="myemail" name="user_mail" required>
-            </div>
-        </div>
-        <div class="form-group col-md-10">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-            <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="user_password" required>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary col-md-10">Sign in</button>
-    </form>
+
+    <main class="container">Salut tu es sur la page d'accueil</main>
 
     <!-- Footer -->
     <footer class="page-footer font-small blue pt-4">
