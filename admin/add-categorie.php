@@ -40,7 +40,7 @@
             <label for="staticEmail2" class="sr-only">Nom de la catégorie</label>
         </div>
         <div class="form-group mx-sm-3 mb-2">
-            <input type="text" class="form-control" placeholder="macategorie" name="article_categorie_nom">
+            <input type="text" class="form-control" placeholder="macategorie" name="article_categorie_nom" required>
         </div>
         <button type="submit" class="btn btn-primary mb-2">Ajouter la categorie</button>
     </form>

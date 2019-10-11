@@ -6,7 +6,6 @@
     $request = request($sql);
 
     $index = 1;
-    echo ("<form>");
     while ($result = mysqli_fetch_assoc($request)) {
         // Condition pour n'afficher que les articles en état visible
         if ($result['article_visible'] == 1) {
