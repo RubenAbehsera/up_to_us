@@ -1,6 +1,7 @@
 <?php
     session_start();
     include '../include/function.php';
+    include '../include/acces_admin.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">

@@ -1,6 +1,7 @@
 <?php
     session_start();
     include '../include/function.php';
+    include '../include/acces_admin.php';
 
     // As-t'on envoyé des infos ?
     if (isset($_POST) and !empty($_POST)) {

@@ -1,14 +1,13 @@
 <?php
     session_start();
     include '/include/function.php';
+    include '../include/acces_admin.php';
 
     $sql = "SELECT * from mission";
     $request = request($sql);
 
     $index = 1;
     while ($result = mysqli_fetch_assoc($request)) {
-        // Condition pour n'afficher que les missions en état visible
-        if ($result['mission_visible'] == 1) {
             echo('Mission numéro : '.$index.'<br>');
             echo('Mission nom : '.$result['mission_nom'].'<br>');
             echo('Mission description : '.$result['mission_description'].'<br>');
@@ -20,8 +19,8 @@
             echo('Mission heure sans reformat : '.changeTime($result['mission_heure'],':').'<br>');
             echo('Mission état de vision : '.$result['mission_visible'].'<br>');
             echo('<a class="btn btn-primary" href="./edit-mission.php?id_mission='.$result['id_mission'].'">Editer l\'article</a>');
+            echo('<a class="btn btn-secondary" onclick="confirm(\"êtes-vous sûr de vouloir supprimer la mission '.$result['mission_nom'].' ?\")" href="./delete-mission.php?id_mission='.$result['id_mission'].'">Supprimer la mission</a>');
             echo('<br>');
-        }
         $index++;
     }
 ?>

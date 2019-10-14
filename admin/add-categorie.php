@@ -1,6 +1,7 @@
 <?php
     session_start();
     include '../include/function.php';
+    include '../include/acces_admin.php';
 
     if (!empty($_POST) and isset($_POST)) {
         $article_categorie_nom = antiSQL($_POST["article_categorie_nom"]);
