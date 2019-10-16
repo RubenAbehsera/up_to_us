@@ -2,7 +2,7 @@
     session_start();
     include '/include/function.php';
 
-    if (!empty($_POST)) {
+    if (isset($_POST) and !empty($_POST)) {
         # L'identifiant que le visiteur met            
         $post_mail = htmlentities($_POST['user_mail'], ENT_QUOTES, "ISO-8859-1");           # On vérifie qu'il n'y a pas d'injection SQL
         $post_mail = strtolower($post_mail);
@@ -40,7 +40,7 @@
         }
     }
 
-    if (!empty($_GET) and $_GET["loggout"] != "") {
+    if (!isset($_POST) and empty($_POST) and !empty($_GET) and $_GET["loggout"] != "") {
         session_destroy();
         setcookie('logged','',time()-306000);
         show_info("Vous avez bien été déconnecter");
