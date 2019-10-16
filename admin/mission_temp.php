@@ -2,6 +2,7 @@
     session_start();
     include '/include/function.php';
     include '../include/acces_admin.php';
+    include '../include/head-admin.php';
 
     $sql = "SELECT * from mission";
     $request = request($sql);

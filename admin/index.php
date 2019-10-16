@@ -1,72 +1,58 @@
 <?php
     session_start();
-    require 'include/function.php';
-    
-    // Contrôle pour voir s'il est connecter
+    include '/include/function.php';
+
     if (!empty($_POST)) {
         # L'identifiant que le visiteur met            
-        $post_username = htmlentities($_POST['user_username'], ENT_QUOTES, "ISO-8859-1");           # On vérifie qu'il n'y a pas d'injection SQL
-        $post_username = strtolower($post_username);
+        $post_mail = htmlentities($_POST['user_mail'], ENT_QUOTES, "ISO-8859-1");           # On vérifie qu'il n'y a pas d'injection SQL
+        $post_mail = strtolower($post_mail);
         # Le mot de passe que le visiteur met
         $post_password =  htmlentities($_POST['user_password'], ENT_QUOTES, "ISO-8859-1");
-        # On vérifie si le nom d'utilisateur est dans la base de données
-        $mysqli = db_connect(); # On se connecte à la base de données
-        $sqlUSER = execute("SELECT COUNT(user_username) FROM user WHERE user_username='.$post_username.'");
+        # On écrit la requête pour voir si l'mail existe
+        $sqlUSER = "SELECT count(user_mail) FROM user WHERE user_mail = '$post_mail'";
 
+        $Nbrresult = execute($sqlUSER);
+        
         # S'il y a un résultat correspondant à la requête (Le nom d'utilisateur existe)  alors on récupère le mot de passe associé
-        if ($sqlUSER == 1) {
+        if ($Nbrresult["count(user_mail)"] == 1) {
             # On fait une requête pour récuperer le mot de passe en base de données
-            $sqlPASSWORD = execute("SELECT * FROM user WHERE user_username='.$post_username.'");
+            # On écrit la requête pour récupérer le mdp et l'mail
+            $sql_PASSWORD = "SELECT id_user,user_password FROM user WHERE user_password = '$post_password'";
+            # On interroge la BDD
+            $user_password = execute($sql_PASSWORD);
             # On associe la valeur du mot de passe hasher à une variable
-            $user_password = $sqlPASSWORD["user_password"];
-            $user_id = $sqlPASSWORD["id_user"];
+            $user_password = $user_password['user_password'];
+            $user_id = $user_password['id_user'];
             # On compare le mot de passe en base de données avec le mot de passe renseigné dans le formulaire
             $truepassword = password_verify($post_password,$user_password);
     
             # Si c'est le bon mot de passe
             if ($truepassword) {
-                // Initialisation des variables sessions
-                $_SESSION['logged'] = true;
                 $_SESSION['id_user'] = $user_id;
-                // On regarde s'il est admin
-                $sql = execute("SELECT id_user_type FROM user WHERE id_user='.$user_id.'");
-                if ($sql['id_user_type'] == 1) { $_SESSION['is_admin'] = 'oui'; }
-                // On l'ajoute dans l'historique de connexion
-                $date = date("Ymd H:i:s");
-                $sql = "INSERT into historyconnexion(id_user,historyconnexion_date) values('".$id_user."','".$date."')";
-                $sql = execute($sql);
-                // On met un cookie
-                setcookie('logged','true',time()+36000);
-                echo 'Connecté';
-                // redirect('espace-connecte.php'); Mettre l'url de redirection
+                $_SESSION['is_admin'] = "true";
+                setcookie('logged','true',time()+306000);
+                show_info("Vous avez bien été connecter");
             }
             # Sinon
             else{
-                // redirect('connexion.php?badid');
-                echo 'Mauvais mdp';
+                show_info("Mauvais mot de passe ou mauvais identifiant");
             }
         }
     }
-
-    if (isset($_GET['disconnected'])) {
+    
+    if (!empty($_GET) and $_GET["loggout"] != "") {
         session_destroy();
-        setcookie('logged','',time()-36000);
-        redirect('connexion.php?badid');
-        // exit;
+        setcookie('logged','',time()-306000);
+        show_info("Vous avez bien été déconnecter");
+        exit;
     }
 
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Up to us</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-</head>
+<?php
+    include '../include/head-admin.php';
+?>
 <body>
 
     <nav id="nav" class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -93,7 +79,7 @@
         </div>
     </nav>
 
-    <form class="container mt-5" method="post" action="connexion.php">
+    <form class="container mt-5" method="post" action="index.php">
         <div class="form-group col-md-10">
             <label for="staticMail" class="col-sm-2 col-form-label">Mail</label>
             <div class="col-sm-10">

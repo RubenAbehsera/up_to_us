@@ -1,6 +1,7 @@
 <?php
     session_start();
     include '/include/function.php';
+    include '/include/head-site.php';
 
     $sql = "SELECT * from article";
     $request = request($sql);

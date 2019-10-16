@@ -2,6 +2,7 @@
     session_start();
     include '../include/function.php';
     include '../include/acces_admin.php';
+    include '../include/head-admin.php';
 
     // As-t'on envoyé des infos ?
     if (isset($_GET) and !empty($_GET)) {

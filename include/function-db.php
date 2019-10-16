@@ -5,17 +5,22 @@ function db_connect() {
     // Initialisation des variables
 	$host =	"localhost";
 	$username = "root";
-	$password = "";
+	$password = "root";
 	$bdd = "up_to_us";
 	
 	// Connexion au serveur MySQL et choix de la BDD
-    $lien = mysqli_connect($host, $username, $password, $bdd);
+	$lien = mysqli_connect($host, $username, $password, $bdd);
+	
+	if (mysqli_connect_errno()) {
+		return show_info("Erreur de connexion à la BDD");
+		exit();
+	}
     
 	if ($lien) {
         mysqli_query($lien, "set names utf8");
         return $lien;
     } else {
-        return 'Erreur de connexion à la BDD';
+		return show_info("Erreur de connexion à la BDD");
     }
 }
 
@@ -47,11 +52,27 @@ function request($sql) {
 
 // Une seule requête SQL
 function execute($sql) {
-	$lien = db_connect();
-	$query = mysqli_query($lien, $sql);
-	$result = mysqli_fetch_assoc($query);
+	return "salut";
+	exit;
+	// $lien = db_connect();
+	// $query = mysqli_query($lien, $sql);
 
-	return($result);
+	// if ($result = mysqli_query($link, $sql)) {
+	// 	printf("la requête a retourné %d lignes.\n", mysqli_num_rows($result));
+	
+	// 	/* Libération du jeu de résultats */
+	// 	mysqli_free_result($result);
+	// 	exit;
+	// }
+
+	// $result = mysqli_fetch_assoc($query);
+
+	// if ($result != "") {
+	// 	return($result);
+	// } else {
+	// 	return show_info("Erreur avec la requête :".$sql.", Result : ".$result." ");
+	// }
+
 }
 
 // Requête INSERT
