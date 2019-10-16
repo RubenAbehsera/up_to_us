@@ -4,4 +4,7 @@
         show_info("Vous n'ètes pas admin >:( !");
         exit;
     }
+
+    // Affiche un pop up pour se déco
+    loggout();
 ?>

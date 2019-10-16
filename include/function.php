@@ -88,4 +88,18 @@ function getCreateur($id) {
     }
     return $result['user_username'];
 }
+
+function loggout() {
+    if (is_admin()) {
+        echo('<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="position: absolute; top: 1rem; right: 1rem; opacity:1;z-index: 1000;">
+        <div class="toast-header">
+            <img style="width:25px;height:25px;" src="https://yt3.ggpht.com/a/AGF-l7_SntL3IWr9XpL6kUPdciXXf8-OqcbvgAfS0A=s900-c-k-c0xffffffff-no-rj-mo" class="rounded mr-2" alt="toast">
+            <strong class="mr-auto">Up to us</strong>
+            <small class="text-muted"></small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="toast-body"><a href="index.php?loggout=true">Cliquez ici pour être déconnecter</a></div>
+        </div>');
+    }
+}
 ?>
