@@ -25,7 +25,7 @@
                         name="mission_nom" required>
                 </div>
                 <div class="form-group">
-                    <textarea class="form-control" id="mission_description" rows="3" name="mission_description"
+                    <textarea class="" id="mission_description" rows="3" name="mission_description"
                         value="<?php echo $result['mission_description'] ?>"
                         placeholder="<?php echo $result['mission_description'] ?>"
                         required><?php echo $result['mission_description'] ?></textarea>
@@ -70,7 +70,7 @@
     if (!isset($_GET['id_mission']) and !empty($_POST)) {
         // Initialisation des variables
         $mission_nom = $_POST["mission_nom"];
-        $mission_description = $_POST["mission_description"];
+        $mission_description = htmlentities($_POST["mission_description"]);
         $mission_photo = "1";
         $mission_lieu = $_POST["mission_lieu"];
         $mission_date = $_POST["mission_date"];

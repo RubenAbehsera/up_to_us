@@ -52,27 +52,15 @@ function request($sql) {
 
 // Une seule requête SQL
 function execute($sql) {
-	return "salut";
-	exit;
-	// $lien = db_connect();
-	// $query = mysqli_query($lien, $sql);
+	$lien = db_connect();
+	$query = mysqli_query($lien, $sql);
+	$result = mysqli_fetch_assoc($query);
 
-	// if ($result = mysqli_query($link, $sql)) {
-	// 	printf("la requête a retourné %d lignes.\n", mysqli_num_rows($result));
-	
-	// 	/* Libération du jeu de résultats */
-	// 	mysqli_free_result($result);
-	// 	exit;
-	// }
-
-	// $result = mysqli_fetch_assoc($query);
-
-	// if ($result != "") {
-	// 	return($result);
-	// } else {
-	// 	return show_info("Erreur avec la requête :".$sql.", Result : ".$result." ");
-	// }
-
+	if ($result != "") {
+		return($result);
+	} else {
+		return show_info("Erreur avec la requête :".$sql.", Result : ".$result." ");
+	}
 }
 
 // Requête INSERT

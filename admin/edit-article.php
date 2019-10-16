@@ -44,7 +44,7 @@
                     <input type="file" class="form-control-file" id="article_photo" name="fichier" value="<?php echo $result['article_photo'] ?>" placeholder="<?php echo $result['article_photo'] ?>" accept="image/*" required>
                 </div>
                 <div class="form-group">
-                    <textarea class="form-control" id="article_contenu" rows="3" name="article_contenu" value="<?php echo $result['article_contenu'] ?>" placeholder="<?php echo $result['article_contenu'] ?>" required><?php echo $result['article_contenu'] ?></textarea>
+                    <textarea class="" id="article_contenu" rows="3" name="article_contenu" value="<?php echo $result['article_contenu'] ?>" placeholder="<?php echo $result['article_contenu'] ?>"><?php echo $result['article_contenu'] ?></textarea>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="article_visible" id="article_visible1" value="1" checked>
@@ -70,7 +70,7 @@
         // Initialisation des variables
         $article_titre = $_POST["article_titre"];
         $article_photo = "1";
-        $article_contenu = $_POST["article_contenu"];
+        $article_contenu = htmlentities($_POST["article_contenu"]);
         $id_article_categorie = $_POST["id_article_categorie"];
         $article_visible = $_POST["article_visible"];
         $id_article = $_POST["id_article"];
