@@ -30,10 +30,12 @@
 
             # Si c'est le bon mot de passe
             if ($truepassword) {
-                if ($user_id == 1) {
-                    $_SESSION['id_user'] = 1;
+                $_SESSION['id_user'] = $user_id;
+                $sqlIsAdmin = "SELECT user_mail from user where id_user = '$user_id' and id_user_type = '1' and user_valid = '1'";
+                // Le cas ou on a une réponse donc il est admin
+                if (insert($sqlIsAdmin)) {
+                    $_SESSION['is_admin'] = "true";
                 }
-                $_SESSION['is_admin'] = true;
                 setcookie('logged','true',time()+306000);
                 show_info("Vous avez bien été connecter");
             }
