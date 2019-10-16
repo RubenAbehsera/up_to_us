@@ -63,6 +63,20 @@ function execute($sql) {
 	}
 }
 
+// nombre résultat requete
+function nbrSQL($sql) {
+	$lien = db_connect();
+	$query = mysqli_query($lien, $sql);
+	$result = mysqli_nums_row($query);
+
+	if ($result != "") {
+		return($result);
+	} else {
+		return show_info("Erreur avec la requête :".$sql.", Result : ".$result." ");
+	}
+}
+
+
 // Requête INSERT
 function insert($sql) {
 	$lien = db_connect();

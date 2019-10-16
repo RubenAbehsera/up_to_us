@@ -9,12 +9,12 @@
         # Le mot de passe que le visiteur met
         $post_password =  htmlentities($_POST['user_password'], ENT_QUOTES, "ISO-8859-1");
         # On écrit la requête pour voir si l'mail existe
-        $sqlUSER = "SELECT count(user_mail) FROM user WHERE user_mail = '$post_mail'";
+        $sqlUSER = "SELECT user_mail FROM user WHERE user_mail = '$post_mail'";
 
-        $Nbrresult = execute($sqlUSER);
+        $Nbrresult = nbrSQL($sqlUSER);
         
         # S'il y a un résultat correspondant à la requête (Le nom d'utilisateur existe)  alors on récupère le mot de passe associé
-        if ($Nbrresult["count(user_mail)"] == 1) {
+        if ($Nbrresult == 1) {
             # On fait une requête pour récuperer le mot de passe en base de données
             # On écrit la requête pour récupérer le mdp et l'mail
             $sql_PASSWORD = "SELECT id_user,user_password FROM user WHERE user_password = '$post_password'";
@@ -25,7 +25,7 @@
             $user_id = $user_password['id_user'];
             # On compare le mot de passe en base de données avec le mot de passe renseigné dans le formulaire
             $truepassword = password_verify($post_password,$user_password);
-    
+
             # Si c'est le bon mot de passe
             if ($truepassword) {
                 $_SESSION['id_user'] = $user_id;
@@ -39,14 +39,13 @@
             }
         }
     }
-    
+
     if (!empty($_GET) and $_GET["loggout"] != "") {
         session_destroy();
         setcookie('logged','',time()-306000);
         show_info("Vous avez bien été déconnecter");
         exit;
     }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
