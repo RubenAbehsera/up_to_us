@@ -30,8 +30,10 @@
 
             # Si c'est le bon mot de passe
             if ($truepassword) {
-                $_SESSION['id_user'] = $user_id;
-                $_SESSION['is_admin'] = "true";
+                if ($user_id == 1) {
+                    $_SESSION['id_user'] = 1;
+                }
+                $_SESSION['is_admin'] = true;
                 setcookie('logged','true',time()+306000);
                 show_info("Vous avez bien été connecter");
             }

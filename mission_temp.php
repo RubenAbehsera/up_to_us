@@ -20,6 +20,7 @@
             echo('Mission heure avec reformat : '.changeTime($result['mission_heure'],':').'<br>');
             echo('Mission heure sans reformat : '.changeTime($result['mission_heure'],':').'<br>');
             echo('Mission état de vision : '.$result['mission_visible'].'<br>');
+            echo('Mission créateur : '.getCreateur($result['mission_createur']).'<br>');
             echo('<br>');
         }
         $index++;

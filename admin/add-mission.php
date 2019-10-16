@@ -15,7 +15,7 @@
         $mission_date = dateFormat($mission_date);
         $mission_heure = $_POST["mission_heure"];
         $mission_heure = timeFormat($mission_heure);
-        $mission_createur = 1;
+        $mission_createur = $_SESSION["id_user"];
         $mission_visible = $_POST['mission_visible'];
 
         // Préparation de la requête

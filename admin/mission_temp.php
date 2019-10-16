@@ -19,6 +19,7 @@
             echo('Mission heure avec reformat : '.changeTime($result['mission_heure'],':').'<br>');
             echo('Mission heure sans reformat : '.changeTime($result['mission_heure'],':').'<br>');
             echo('Mission état de vision : '.$result['mission_visible'].'<br>');
+            echo('Mission créateur : '.getCreateur($result['mission_createur']).'<br>');
             echo('<a class="btn btn-primary" href="./edit-mission.php?id_mission='.$result['id_mission'].'">Editer l\'article</a>');
             echo('<a class="btn btn-secondary" onclick="confirm(\"êtes-vous sûr de vouloir supprimer la mission '.$result['mission_nom'].' ?\")" href="./delete-mission.php?id_mission='.$result['id_mission'].'">Supprimer la mission</a>');
             echo('<br>');

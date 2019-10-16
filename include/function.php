@@ -78,4 +78,14 @@ function timeFormat($time) {
 
     return $hour.$min;
 }
+
+function getCreateur($id) {
+    $sql = "SELECT user_username from user where id_user = '$id'";
+    $result = execute($sql);
+
+    if ($result["user_username"] == NULL) {
+        $result["user_username"] = "Administrateur";
+    }
+    return $result['user_username'];
+}
 ?>

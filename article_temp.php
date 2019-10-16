@@ -18,6 +18,7 @@
             echo('Article date création avec reformat : '.changeDate($result['article_date'],'-').'<br>');
             echo('Article date création sans reformat : '.$result['article_date'].'<br>');
             echo('Article état de vision : '.$result['article_visible'].'<br>');
+            echo('Article créateur : '.getCreateur($result['article_createur']).'<br>');
             echo('<br>');
         }
         $index++;

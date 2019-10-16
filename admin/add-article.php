@@ -10,7 +10,7 @@
         $article_photo = "1";
         $article_contenu = htmlentities($_POST["article_contenu"]);
         $id_article_categorie = $_POST["id_article_categorie"];
-        $article_createur = 1;
+        $article_createur = $_SESSION["id_user"];
         $article_date = date("YmdHis");
         $article_visible = $_POST['article_visible'];
 
