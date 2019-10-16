@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include '/include/function.php';
+    include '../include/function.php';
 
     if (isset($_POST) and !empty($_POST)) {
         # L'identifiant que le visiteur met            
@@ -11,18 +11,20 @@
         # On écrit la requête pour voir si l'mail existe
         $sqlUSER = "SELECT user_mail FROM user WHERE user_mail = '$post_mail'";
 
-        $Nbrresult = nbrSQL($sqlUSER);
+        $Nbrresult = insert($sqlUSER); // ça ne l'insert pas hein faut pas écouter le nom de la fonction
         
         # S'il y a un résultat correspondant à la requête (Le nom d'utilisateur existe)  alors on récupère le mot de passe associé
-        if ($Nbrresult == 1) {
+        if ($Nbrresult) {
             # On fait une requête pour récuperer le mot de passe en base de données
             # On écrit la requête pour récupérer le mdp et l'mail
-            $sql_PASSWORD = "SELECT id_user,user_password FROM user WHERE user_password = '$post_password'";
+            $sql_PASSWORD = "SELECT user_password FROM user WHERE user_mail='$post_mail'";
             # On interroge la BDD
             $user_password = execute($sql_PASSWORD);
+            $sql_ID = "SELECT id_user from user where user_mail='$post_mail'";
+            $user_id = execute($sql_ID);
             # On associe la valeur du mot de passe hasher à une variable
             $user_password = $user_password['user_password'];
-            $user_id = $user_password['id_user'];
+            $user_id = $user_id['id_user'];
             # On compare le mot de passe en base de données avec le mot de passe renseigné dans le formulaire
             $truepassword = password_verify($post_password,$user_password);
 

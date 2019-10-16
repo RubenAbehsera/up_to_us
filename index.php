@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <?php
-    include '/include/head-site.php';
+    include './include/head-site.php';
 ?>
 <body>
 

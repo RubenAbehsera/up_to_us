@@ -56,23 +56,8 @@ function execute($sql) {
 	$query = mysqli_query($lien, $sql);
 	$result = mysqli_fetch_assoc($query);
 
-	if ($result != "") {
+	if ($result) {
 		return($result);
-	} else {
-		return show_info("Erreur avec la requête :".$sql.", Result : ".$result." ");
-	}
-}
-
-// nombre résultat requete
-function nbrSQL($sql) {
-	$lien = db_connect();
-	$query = mysqli_query($lien, $sql);
-	$result = mysqli_nums_row($query);
-
-	if ($result != "") {
-		return($result);
-	} else {
-		return show_info("Erreur avec la requête :".$sql.", Result : ".$result." ");
 	}
 }
 
