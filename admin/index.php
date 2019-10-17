@@ -12,9 +12,10 @@
         $sqlUSER = "SELECT user_mail FROM user WHERE user_mail = '$post_mail'";
 
         $Nbrresult = insert($sqlUSER); // ça ne l'insert pas hein faut pas écouter le nom de la fonction
-        
+        $NbrResult = mysqli_num_rows($NbrResult);
+
         # S'il y a un résultat correspondant à la requête (Le nom d'utilisateur existe)  alors on récupère le mot de passe associé
-        if ($Nbrresult) {
+        if ($Nbrresult > 1) {
             # On fait une requête pour récuperer le mot de passe en base de données
             # On écrit la requête pour récupérer le mdp et l'mail
             $sql_PASSWORD = "SELECT user_password FROM user WHERE user_mail='$post_mail'";
@@ -38,10 +39,12 @@
                 }
                 setcookie('logged','true',time()+306000);
                 show_info("Vous avez bien été connecter");
+                exit;
             }
             # Sinon
             else{
                 show_info("Mauvais mot de passe ou mauvais identifiant");
+                exit;
             }
         }
     }

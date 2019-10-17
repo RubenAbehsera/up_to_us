@@ -14,8 +14,9 @@
 
         $sql = "SELECT user_mail from user where user_mail='$user_mail'";
         $nbrResult = insert($sql);
+        $nbrResult = mysqli_num_rows($nbrResult);
 
-        if ($nbrResult) {
+        if ($nbrResult > 1) {
             show_info("Un utilisateur avec le même mail existe déjà");
             exit;
         }
