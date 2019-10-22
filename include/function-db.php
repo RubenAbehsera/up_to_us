@@ -5,22 +5,17 @@ function db_connect() {
     // Initialisation des variables
 	$host =	"localhost";
 	$username = "root";
-	$password = "root";
+	$password = "";
 	$bdd = "up_to_us";
 	
 	// Connexion au serveur MySQL et choix de la BDD
-	$lien = mysqli_connect($host, $username, $password, $bdd);
-	
-	if (mysqli_connect_errno()) {
-		return show_info("Erreur de connexion à la BDD");
-		exit();
-	}
+    $lien = mysqli_connect($host, $username, $password, $bdd);
     
 	if ($lien) {
         mysqli_query($lien, "set names utf8");
         return $lien;
     } else {
-		return show_info("Erreur de connexion à la BDD");
+        return 'Erreur de connexion à la BDD';
     }
 }
 
@@ -56,11 +51,8 @@ function execute($sql) {
 	$query = mysqli_query($lien, $sql);
 	$result = mysqli_fetch_assoc($query);
 
-	if ($result) {
-		return($result);
-	}
+	return($result);
 }
-
 
 // Requête INSERT
 function insert($sql) {

@@ -1,21 +1,19 @@
 <?php
     session_start();
     include '../include/function.php';
-    include '../include/acces_admin.php';
-    include '../include/head-admin.php';
 
     // As-t'on envoyé des infos ?
     if (isset($_POST) and !empty($_POST)) {
         // Initialisation des variables
         $mission_nom = $_POST["mission_nom"];
-        $mission_description = htmlentities($_POST["mission_description"]);
+        $mission_description = $_POST["mission_description"];
         $mission_photo = "1";
         $mission_lieu = $_POST["mission_lieu"];
         $mission_date = $_POST["mission_date"];
         $mission_date = dateFormat($mission_date);
         $mission_heure = $_POST["mission_heure"];
         $mission_heure = timeFormat($mission_heure);
-        $mission_createur = $_SESSION["id_user"];
+        $mission_createur = 1;
         $mission_visible = $_POST['mission_visible'];
 
         // Préparation de la requête
@@ -58,7 +56,7 @@
         </div>
         <div class="form-group">
             <label for="mission_contenu">description mission</label>
-            <textarea class="" id="mission_contenu" rows="3" name="mission_description"></textarea>
+            <textarea class="form-control" id="mission_contenu" rows="3" name="mission_description" required></textarea>
         </div>
         <div class="form-group">
             <label for="mission_photo">Image</label>

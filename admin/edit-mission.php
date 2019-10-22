@@ -1,14 +1,24 @@
 <?php
     session_start();
     include '../include/function.php';
-    include '../include/acces_admin.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 
-<?php
-    include '../include/head-admin.php';
-?>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Up to us</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+</head>
 
 <?php
     if (isset($_GET['id_mission'])) {
@@ -25,7 +35,7 @@
                         name="mission_nom" required>
                 </div>
                 <div class="form-group">
-                    <textarea class="" id="mission_description" rows="3" name="mission_description"
+                    <textarea class="form-control" id="mission_description" rows="3" name="mission_description"
                         value="<?php echo $result['mission_description'] ?>"
                         placeholder="<?php echo $result['mission_description'] ?>"
                         required><?php echo $result['mission_description'] ?></textarea>
@@ -70,7 +80,7 @@
     if (!isset($_GET['id_mission']) and !empty($_POST)) {
         // Initialisation des variables
         $mission_nom = $_POST["mission_nom"];
-        $mission_description = htmlentities($_POST["mission_description"]);
+        $mission_description = $_POST["mission_description"];
         $mission_photo = "1";
         $mission_lieu = $_POST["mission_lieu"];
         $mission_date = $_POST["mission_date"];

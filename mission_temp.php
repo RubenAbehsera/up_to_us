@@ -1,7 +1,6 @@
 <?php
     session_start();
-    include './include/function.php';
-    include './include/head-site.php';
+    include '/include/function.php';
 
     $sql = "SELECT * from mission";
     $request = request($sql);
@@ -20,7 +19,6 @@
             echo('Mission heure avec reformat : '.changeTime($result['mission_heure'],':').'<br>');
             echo('Mission heure sans reformat : '.changeTime($result['mission_heure'],':').'<br>');
             echo('Mission état de vision : '.$result['mission_visible'].'<br>');
-            echo('Mission créateur : '.getCreateur($result['mission_createur']).'<br>');
             echo('<br>');
         }
         $index++;
